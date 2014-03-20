@@ -5,8 +5,9 @@ int main(void)
 {
   CURL *curl;
   CURLcode res;
- 
+
   curl = curl_easy_init();
+
   if(curl) {
     curl_easy_setopt(curl, CURLOPT_URL, "http://example.com");
     /* example.com is redirected, so we tell libcurl to follow redirection */ 
@@ -14,11 +15,11 @@ int main(void)
  
     /* Perform the request, res will get the return code */ 
     res = curl_easy_perform(curl);
+    printf("%d\n", res); 
     /* Check for errors */ 
     if(res != CURLE_OK)
       fprintf(stderr, "curl_easy_perform() failed: %s\n",
               curl_easy_strerror(res));
- 
     /* always cleanup */ 
     curl_easy_cleanup(curl);
   }
