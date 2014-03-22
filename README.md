@@ -11,9 +11,19 @@ Note that it doesn't actually do much of this right now.
 $ make
 ```
 
-## running
+## Running
 
 ```sh
 $ ./curly http://github.com
 0 301 0.035085 0.022147 0.028620 0.035060
 ```
+
+
+The response fields map to the following keys:
+
+* curl exit code
+* http response code
+* total time
+* name lookup time
+* time to connect
+* time to first byte
