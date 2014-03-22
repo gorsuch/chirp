@@ -10,6 +10,7 @@ int main(int argc, char * argv[])
 {
   CURL *curl;
   CURLcode exit_code;
+  char *check_id;
   char *url;
   long *http_code;
   double total_time = 0;
@@ -18,12 +19,13 @@ int main(int argc, char * argv[])
   double starttransfer_time = 0;
   int protocol = 1;
 
-  if (argc < 2) {
-    fprintf(stderr, "Usage: %s url\n", argv[0]);
+  if (argc < 3) {
+    fprintf(stderr, "Usage: %s [check_id] [url]\n", argv[0]);
     return 1;
   }
 
-  url = argv[1];
+  check_id = argv[1];
+  url = argv[2];
   curl = curl_easy_init();
 
   if(curl) {
@@ -41,9 +43,9 @@ int main(int argc, char * argv[])
       curl_easy_getinfo(curl, CURLINFO_TOTAL_TIME, &total_time);
       curl_easy_getinfo(curl, CURLINFO_STARTTRANSFER_TIME, &starttransfer_time);
 
-      printf("m %d %d %d %f %f %f %f\n", protocol, exit_code, http_code, total_time, namelookup_time, connect_time, starttransfer_time);
+      printf("m %d %s %d %d %f %f %f %f\n", protocol, check_id, exit_code, http_code, total_time, namelookup_time, connect_time, starttransfer_time);
     } else {
-      printf("m %d %d\n", protocol, exit_code);
+      printf("m %d %d\n", protocol, check_id, exit_code);
     }
 
     curl_easy_cleanup(curl);
