@@ -34,9 +34,9 @@ int check(char *check_id, char *url, char *measurement)
       curl_easy_getinfo(curl, CURLINFO_TOTAL_TIME, &total_time);
       curl_easy_getinfo(curl, CURLINFO_STARTTRANSFER_TIME, &starttransfer_time);
 
-      sprintf(measurement, "m %d %s %d %d %f %f %f %f\n", protocol, check_id, exit_code, http_code, total_time, namelookup_time, connect_time, starttransfer_time);
+      sprintf(measurement, "m %d %s %d %d %f %f %f %f", protocol, check_id, exit_code, http_code, total_time, namelookup_time, connect_time, starttransfer_time);
     } else {
-      sprintf(measurement, "m %d %d\n", protocol, check_id, exit_code);
+      sprintf(measurement, "m %d %d", protocol, check_id, exit_code);
     }
 
     curl_easy_cleanup(curl);
@@ -46,12 +46,16 @@ int check(char *check_id, char *url, char *measurement)
 
 int main(int argc, char * argv[]) {
   char measurement[255];
+  int res;
 
   if (argc < 3) {
     fprintf(stderr, "Usage: %s [check_id] [url]\n", argv[0]);
     return 1;
   }
 
-  check(argv[1], argv[2], measurement);
-  printf("%s\n", measurement);
+  if (res = check(argv[1], argv[2], measurement) == 0) {
+    printf("%s\n", measurement);
+  } else {
+    printf("error: %d\n", res);
+  }
 }
