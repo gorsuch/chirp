@@ -54,8 +54,8 @@ int main(int argc, char * argv[]) {
   }
 
   if (res = check(argv[1], argv[2], measurement) == 0) {
-    printf("%s\n", measurement);
+    fprintf(stdout, "%s\n", measurement);
   } else {
-    printf("error: %d\n", res);
+    fprintf(stderr, "error: %d\n", res);
   }
 }
