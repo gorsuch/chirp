@@ -36,7 +36,7 @@ int measure(char *check_id, char *url, char *measurement)
 
       sprintf(measurement, "m %d %s %d %d %f %f %f %f", protocol, check_id, exit_code, http_code, total_time, namelookup_time, connect_time, starttransfer_time);
     } else {
-      sprintf(measurement, "m %d %d", protocol, check_id, exit_code);
+      sprintf(measurement, "m %d %s %d", protocol, check_id, exit_code);
     }
 
     curl_easy_cleanup(curl);
