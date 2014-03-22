@@ -53,7 +53,8 @@ int main(int argc, char * argv[]) {
     return 1;
   }
 
-  if (res = check(argv[1], argv[2], measurement) == 0) {
+  res = check(argv[1], argv[2], measurement);
+  if (res == 0) {
     fprintf(stdout, "%s\n", measurement);
   } else {
     fprintf(stderr, "error: %d\n", res);
