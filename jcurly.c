@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <jansson.h>
 #include "measure.h"
 
 int main(int argc, char * argv[]) {

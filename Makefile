@@ -1,8 +1,8 @@
 build: curly jcurly
 curly: objs
-	gcc main.c -l curl measure.o -o curly
+	gcc main.c -lcurl -ljansson measure.o -o curly
 jcurly: objs
-	gcc jcurly.c -l curl measure.o -o jcurly
+	gcc jcurly.c -lcurl -ljansson measure.o -o jcurly
 objs:
 	gcc -c measure.c
 clean:
