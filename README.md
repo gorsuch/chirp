@@ -14,8 +14,8 @@ $ make
 ## Running
 
 ```sh
-$ ./curly http://github.com
-m 1 0 301 0.035085 0.022147 0.028620 0.035060
+$ ./curly 42 http://github.com
+m 1 42 0 301 0.035667 0.021982 0.029104 0.035637
 ```
 
 
@@ -23,6 +23,7 @@ The response fields map to the following keys:
 
 * `m` - this is a meeasurement
 * protocol / response version
+* check id
 * curl exit code
 * http response code
 * total time
