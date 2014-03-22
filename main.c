@@ -6,12 +6,10 @@ static size_t write_data(void *ptr, size_t size, size_t nmemb, void *stream) {
   return size*nmemb;  
 }
 
-int main(int argc, char * argv[])
+int check(char *check_id, char *url)
 {
   CURL *curl;
   CURLcode exit_code;
-  char *check_id;
-  char *url;
   long *http_code;
   double total_time = 0;
   double connect_time = 0;
@@ -19,13 +17,6 @@ int main(int argc, char * argv[])
   double starttransfer_time = 0;
   int protocol = 1;
 
-  if (argc < 3) {
-    fprintf(stderr, "Usage: %s [check_id] [url]\n", argv[0]);
-    return 1;
-  }
-
-  check_id = argv[1];
-  url = argv[2];
   curl = curl_easy_init();
 
   if(curl) {
@@ -53,3 +44,11 @@ int main(int argc, char * argv[])
   return 0;
 }
 
+int main(int argc, char * argv[]) {
+  if (argc < 3) {
+    fprintf(stderr, "Usage: %s [check_id] [url]\n", argv[0]);
+    return 1;
+  }
+
+  check(argv[1], argv[2]);
+}
