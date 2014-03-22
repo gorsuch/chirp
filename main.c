@@ -16,6 +16,7 @@ int main(int argc, char * argv[])
   double connect_time = 0;
   double namelookup_time = 0;
   double starttransfer_time = 0;
+  int protocol = 1;
 
   if (argc < 2) {
     fprintf(stderr, "Usage: %s url\n", argv[0]);
@@ -40,9 +41,9 @@ int main(int argc, char * argv[])
       curl_easy_getinfo(curl, CURLINFO_TOTAL_TIME, &total_time);
       curl_easy_getinfo(curl, CURLINFO_STARTTRANSFER_TIME, &starttransfer_time);
 
-      printf("%d %d %f %f %f %f\n", exit_code, http_code, total_time, namelookup_time, connect_time, starttransfer_time);
+      printf("m %d %d %d %f %f %f %f\n", protocol, exit_code, http_code, total_time, namelookup_time, connect_time, starttransfer_time);
     } else {
-      printf("%d\n", exit_code);
+      printf("m %d %d\n", protocol, exit_code);
     }
 
     curl_easy_cleanup(curl);

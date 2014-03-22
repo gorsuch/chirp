@@ -15,12 +15,14 @@ $ make
 
 ```sh
 $ ./curly http://github.com
-0 301 0.035085 0.022147 0.028620 0.035060
+m 1 0 301 0.035085 0.022147 0.028620 0.035060
 ```
 
 
 The response fields map to the following keys:
 
+* `m` - this is a meeasurement
+* protocol / response version
 * curl exit code
 * http response code
 * total time
