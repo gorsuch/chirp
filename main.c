@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <curl/curl.h>
 
+/* dummy function that allows us to discard all libcurl output */
 static size_t write_data(void *ptr, size_t size, size_t nmemb, void *stream) {
   return size*nmemb;  
 }
