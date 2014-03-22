@@ -6,7 +6,7 @@ static size_t write_data(void *ptr, size_t size, size_t nmemb, void *stream) {
   return size*nmemb;  
 }
 
-int check(char *check_id, char *url, char *measurement)
+int measure(char *check_id, char *url, char *measurement)
 {
   CURL *curl;
   CURLcode exit_code;
@@ -53,7 +53,7 @@ int main(int argc, char * argv[]) {
     return 1;
   }
 
-  res = check(argv[1], argv[2], measurement);
+  res = measure(argv[1], argv[2], measurement);
   if (res == 0) {
     fprintf(stdout, "%s\n", measurement);
   } else {
