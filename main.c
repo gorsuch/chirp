@@ -6,7 +6,7 @@ static size_t write_data(void *ptr, size_t size, size_t nmemb, void *stream) {
   return size*nmemb;  
 }
 
-int check(char *check_id, char *url)
+int check(char *check_id, char *url, char *measurement)
 {
   CURL *curl;
   CURLcode exit_code;
@@ -34,9 +34,9 @@ int check(char *check_id, char *url)
       curl_easy_getinfo(curl, CURLINFO_TOTAL_TIME, &total_time);
       curl_easy_getinfo(curl, CURLINFO_STARTTRANSFER_TIME, &starttransfer_time);
 
-      printf("m %d %s %d %d %f %f %f %f\n", protocol, check_id, exit_code, http_code, total_time, namelookup_time, connect_time, starttransfer_time);
+      sprintf(measurement, "m %d %s %d %d %f %f %f %f\n", protocol, check_id, exit_code, http_code, total_time, namelookup_time, connect_time, starttransfer_time);
     } else {
-      printf("m %d %d\n", protocol, check_id, exit_code);
+      sprintf(measurement, "m %d %d\n", protocol, check_id, exit_code);
     }
 
     curl_easy_cleanup(curl);
@@ -45,10 +45,13 @@ int check(char *check_id, char *url)
 }
 
 int main(int argc, char * argv[]) {
+  char measurement[255];
+
   if (argc < 3) {
     fprintf(stderr, "Usage: %s [check_id] [url]\n", argv[0]);
     return 1;
   }
 
-  check(argv[1], argv[2]);
+  check(argv[1], argv[2], measurement);
+  printf("%s\n", measurement);
 }
