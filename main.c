@@ -6,12 +6,10 @@ static size_t write_data(void *ptr, size_t size, size_t nmemb, void *stream) {
   return size*nmemb;  
 }
 
-int main(int argc, char * argv[])
+int measure(char *check_id, char *url, char *measurement)
 {
   CURL *curl;
   CURLcode exit_code;
-  char *check_id;
-  char *url;
   long *http_code;
   double total_time = 0;
   double connect_time = 0;
@@ -19,13 +17,6 @@ int main(int argc, char * argv[])
   double starttransfer_time = 0;
   int protocol = 1;
 
-  if (argc < 3) {
-    fprintf(stderr, "Usage: %s [check_id] [url]\n", argv[0]);
-    return 1;
-  }
-
-  check_id = argv[1];
-  url = argv[2];
   curl = curl_easy_init();
 
   if(curl) {
@@ -43,9 +34,9 @@ int main(int argc, char * argv[])
       curl_easy_getinfo(curl, CURLINFO_TOTAL_TIME, &total_time);
       curl_easy_getinfo(curl, CURLINFO_STARTTRANSFER_TIME, &starttransfer_time);
 
-      printf("m %d %s %d %d %f %f %f %f\n", protocol, check_id, exit_code, http_code, total_time, namelookup_time, connect_time, starttransfer_time);
+      sprintf(measurement, "m %d %s %d %d %f %f %f %f", protocol, check_id, exit_code, http_code, total_time, namelookup_time, connect_time, starttransfer_time);
     } else {
-      printf("m %d %d\n", protocol, check_id, exit_code);
+      sprintf(measurement, "m %d %d", protocol, check_id, exit_code);
     }
 
     curl_easy_cleanup(curl);
@@ -53,3 +44,19 @@ int main(int argc, char * argv[])
   return 0;
 }
 
+int main(int argc, char * argv[]) {
+  char measurement[255];
+  int res;
+
+  if (argc < 3) {
+    fprintf(stderr, "Usage: %s [check_id] [url]\n", argv[0]);
+    return 1;
+  }
+
+  res = measure(argv[1], argv[2], measurement);
+  if (res == 0) {
+    fprintf(stdout, "%s\n", measurement);
+  } else {
+    fprintf(stderr, "error: %d\n", res);
+  }
+}
