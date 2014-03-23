@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "measure.h"
 #include <jansson.h>
+#include "measure.h"
 
 int main(int argc, char * argv[]) {
   int res;
