@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include <curl/curl.h>
 #include "measure.h"
 
@@ -13,18 +14,20 @@ struct measurement * measure(char *check_id, char *url)
 {
   CURL *curl;
   CURLcode exit_code;
-  long *http_code;
-  double total_time = 0;
-  double connect_time = 0;
-  double namelookup_time = 0;
-  double starttransfer_time = 0;
-  int protocol = 1;
   struct measurement * m;
 
   curl = curl_easy_init();
 
   if(curl) {
     m = (struct measurement *) malloc(sizeof(struct measurement));
+
+    m->url = (char *) malloc(strlen(url) + 1);
+    strcpy(m->url, url);
+
+    m->check_id = (char *) malloc(strlen(check_id) + 1);
+    strcpy(m->check_id, check_id);
+
+    m->t = (unsigned)time(NULL);
 
     curl_easy_setopt(curl, CURLOPT_URL, url);
     curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 1L);
@@ -34,27 +37,21 @@ struct measurement * measure(char *check_id, char *url)
     exit_code = curl_easy_perform(curl);
     m->exit_status = exit_code;
 
-    if(exit_code == CURLE_OK) {
-      curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
-      curl_easy_getinfo(curl, CURLINFO_NAMELOOKUP_TIME, &namelookup_time);
-      curl_easy_getinfo(curl, CURLINFO_CONNECT_TIME, &connect_time);
-      curl_easy_getinfo(curl, CURLINFO_TOTAL_TIME, &total_time);
-      curl_easy_getinfo(curl, CURLINFO_STARTTRANSFER_TIME, &starttransfer_time);
-
-      //sprintf(measurement, "m %d %s %d %d %f %f %f %f", protocol, check_id, exit_code, http_code, total_time, namelookup_time, connect_time, starttransfer_time);
-    } else {
-      //sprintf(measurement, "m %d %s %d", protocol, check_id, exit_code);
-    }
-    return m;
-    free_measurement(&m);
+    curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &m->http_status);
+    curl_easy_getinfo(curl, CURLINFO_NAMELOOKUP_TIME, &m->namelookup_time);
+    curl_easy_getinfo(curl, CURLINFO_CONNECT_TIME, &m->connect_time);
+    curl_easy_getinfo(curl, CURLINFO_TOTAL_TIME, &m->total_time);
+    curl_easy_getinfo(curl, CURLINFO_STARTTRANSFER_TIME, &m->starttransfer_time);
 
     curl_easy_cleanup(curl);
+    return m;
   }
   return 0;
 }
 
 void free_measurement(struct measurement ** m) {
-  (*m)->exit_status = 0;
+  free((*m)->check_id);
+  free((*m)->url);
 
   free(m);
 }
