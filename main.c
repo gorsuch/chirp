@@ -19,15 +19,22 @@ int main(int argc, char * argv[]) {
     fprintf(stderr, "There was an error executing the measurement.\n");
     return 1;
   } else {
-    fprintf(stdout, "%s %d %d %d %f %f %f %f\n", 
+    if (m->exit_status == 0) {
+      fprintf(stdout, "m 1 %s %d %d %d %f %f %f %f\n", 
+          m->check_id,
+          m->t,
+          m->exit_status,
+          m->http_status,
+          m->total_time,
+          m->namelookup_time,
+          m->connect_time,
+          m->starttransfer_time);
+    } else {
+      fprintf(stdout, "m 1 %s %d %d\n",
         m->check_id,
         m->t,
-        m->exit_status,
-        m->http_status,
-        m->total_time,
-        m->namelookup_time,
-        m->connect_time,
-        m->starttransfer_time);
+        m->exit_status);
+    }
     free_measurement(&m);
   }
 }

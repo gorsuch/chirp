@@ -20,6 +20,15 @@ struct measurement * measure(char *check_id, char *url)
 
   if(curl) {
     m = (struct measurement *) malloc(sizeof(struct measurement));
+    m->url = NULL;
+    m->check_id = NULL;
+    m->t = 0;
+    m->exit_status = 0;
+    m->http_status = 0;
+    m->namelookup_time = 0.0;
+    m->connect_time = 0.0;
+    m->total_time = 0.0;
+    m->starttransfer_time = 0.0;
 
     m->url = (char *) malloc(strlen(url) + 1);
     strcpy(m->url, url);
@@ -37,13 +46,15 @@ struct measurement * measure(char *check_id, char *url)
     exit_code = curl_easy_perform(curl);
     m->exit_status = exit_code;
 
-    curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &m->http_status);
-    curl_easy_getinfo(curl, CURLINFO_NAMELOOKUP_TIME, &m->namelookup_time);
-    curl_easy_getinfo(curl, CURLINFO_CONNECT_TIME, &m->connect_time);
-    curl_easy_getinfo(curl, CURLINFO_TOTAL_TIME, &m->total_time);
-    curl_easy_getinfo(curl, CURLINFO_STARTTRANSFER_TIME, &m->starttransfer_time);
+    if (exit_code == 0) {
+      curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &m->http_status);
+      curl_easy_getinfo(curl, CURLINFO_NAMELOOKUP_TIME, &m->namelookup_time);
+      curl_easy_getinfo(curl, CURLINFO_CONNECT_TIME, &m->connect_time);
+      curl_easy_getinfo(curl, CURLINFO_TOTAL_TIME, &m->total_time);
+      curl_easy_getinfo(curl, CURLINFO_STARTTRANSFER_TIME, &m->starttransfer_time);
+    }
 
-    curl_easy_cleanup(curl);
+    //curl_easy_cleanup(curl);
     return m;
   }
   return 0;
@@ -53,5 +64,5 @@ void free_measurement(struct measurement ** m) {
   free((*m)->check_id);
   free((*m)->url);
 
-  free(m);
+  free(*m);
 }
