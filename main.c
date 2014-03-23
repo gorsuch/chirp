@@ -39,7 +39,9 @@ int main(int argc, char * argv[]) {
       json_object_set_new(json, "url", json_string(m->url));
       json_object_set_new(json, "t", json_integer(m->t));
       json_object_set_new(json, "exit_status", json_integer(m->exit_status));
+
       js = json_dumps(json, 0);
+
       fprintf(stdout, "%s\n", js);
     }
     free_measurement(&m);
