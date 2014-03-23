@@ -28,5 +28,6 @@ int main(int argc, char * argv[]) {
         m->namelookup_time,
         m->connect_time,
         m->starttransfer_time);
+    free_measurement(&m);
   }
 }
