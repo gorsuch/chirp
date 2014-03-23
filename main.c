@@ -2,12 +2,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include "measure.h"
+#include <jansson.h>
 
 int main(int argc, char * argv[]) {
-  char measurement[255];
   int res;
-
   struct measurement * m;
+  json_t *json = json_object();
+  char * js;
 
   if (argc < 3) {
     fprintf(stderr, "Usage: %s [check_id] [url]\n", argv[0]);
@@ -20,15 +21,19 @@ int main(int argc, char * argv[]) {
     return 1;
   } else {
     if (m->exit_status == 0) {
-      fprintf(stdout, "m 1 %s %d %d %d %f %f %f %f\n", 
-          m->check_id,
-          m->t,
-          m->exit_status,
-          m->http_status,
-          m->total_time,
-          m->namelookup_time,
-          m->connect_time,
-          m->starttransfer_time);
+      json_object_set_new(json, "check_id", json_string(m->check_id));
+      json_object_set_new(json, "url", json_string(m->url));
+      json_object_set_new(json, "t", json_integer(m->t));
+      json_object_set_new(json, "exit_status", json_integer(m->exit_status));
+      json_object_set_new(json, "http_status", json_integer(m->http_status));
+      json_object_set_new(json, "total_time", json_real(m->total_time));
+      json_object_set_new(json, "namelookup_time", json_real(m->namelookup_time));
+      json_object_set_new(json, "connect_time", json_real(m->connect_time));
+      json_object_set_new(json, "starttransfer_time", json_real(m->connect_time));
+
+      js = json_dumps(json, 0);
+
+      fprintf(stdout, "%s\n", js);
     } else {
       fprintf(stdout, "m 1 %s %d %d\n",
         m->check_id,
@@ -36,5 +41,7 @@ int main(int argc, char * argv[]) {
         m->exit_status);
     }
     free_measurement(&m);
+    free(js);
+    json_decref(json);
   }
 }
