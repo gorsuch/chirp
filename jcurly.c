@@ -6,7 +6,6 @@
 int main(int argc, char * argv[]) {
   char measurement[255];
   int res;
-
   struct measurement * m;
 
   if (argc < 3) {
