@@ -30,21 +30,23 @@ void report(struct measurement *m) {
   json_decref(json);
 }
 
-int main(int argc, char * argv[]) {
+int inner_loop(void) {
   struct measurement * m;
 
-  if (argc < 3) {
-    fprintf(stderr, "Usage: %s [check_id] [url]\n", argv[0]);
-    return 1;
+  while (1) {
+    m = measure("1", "http://github.com");
+    if (m == NULL) {
+      fprintf(stderr, "There was an error executing the measurement.\n");
+    } else {
+      report(m);
+      free_measurement(&m);
+    }
+    sleep(1);
   }
 
-  m = measure(argv[1], argv[2]);
+  return 1;
+}
 
-  if (m == NULL) {
-    fprintf(stderr, "There was an error executing the measurement.\n");
-    return 1;
-  } else {
-    report(m);
-    free_measurement(&m);
-  }
+int main(int argc, char * argv[]) {
+  return inner_loop();
 }
