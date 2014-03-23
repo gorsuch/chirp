@@ -14,20 +14,6 @@ $ make
 ## Running
 
 ```sh
-$ ./curly 123 http://github.com
-m 1 123 1395583688 0 301 0.035355 0.022038 0.028698 0.035329
+$ ./curly 1 http://github.com
+{"check_id": "1", "url": "http://github.com", "connect_time": 0.029722999999999999, "exit_status": 0, "starttransfer_time": 0.029722999999999999, "t": 1395595829, "http_status": 301, "total_time": 0.036128, "namelookup_time": 0.022237}
 ```
-
-
-The response fields map to the following keys:
-
-* `m` - this is a meeasurement
-* protocol / response version
-* check id
-* epoch timestamp
-* curl exit code
-* http response code
-* total time
-* name lookup time
-* time to connect
-* time to first byte
