@@ -54,7 +54,7 @@ struct measurement * measure(char *check_id, char *url)
       curl_easy_getinfo(curl, CURLINFO_STARTTRANSFER_TIME, &m->starttransfer_time);
     }
 
-    //curl_easy_cleanup(curl);
+    curl_easy_cleanup(curl);
     return m;
   }
   return 0;
