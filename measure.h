@@ -11,6 +11,7 @@ struct measurement {
   double total_time;
   double connect_time;
   double starttransfer_time;
+  char * primary_ip;
 };
 
 struct measurement * measure(char *check_id, char *url);
