@@ -20,11 +20,12 @@ int main(int argc, char * argv[]) {
     fprintf(stderr, "There was an error executing the measurement.\n");
     return 1;
   } else {
+    json_object_set_new(json, "check_id", json_string(m->check_id));
+    json_object_set_new(json, "url", json_string(m->url));
+    json_object_set_new(json, "t", json_integer(m->t));
+    json_object_set_new(json, "exit_status", json_integer(m->exit_status));
+
     if (m->exit_status == 0) {
-      json_object_set_new(json, "check_id", json_string(m->check_id));
-      json_object_set_new(json, "url", json_string(m->url));
-      json_object_set_new(json, "t", json_integer(m->t));
-      json_object_set_new(json, "exit_status", json_integer(m->exit_status));
       json_object_set_new(json, "http_status", json_integer(m->http_status));
       json_object_set_new(json, "total_time", json_real(m->total_time));
       json_object_set_new(json, "namelookup_time", json_real(m->namelookup_time));
@@ -32,16 +33,9 @@ int main(int argc, char * argv[]) {
       json_object_set_new(json, "starttransfer_time", json_real(m->connect_time));
 
       js = json_dumps(json, 0);
-
       fprintf(stdout, "%s\n", js);
     } else {
-      json_object_set_new(json, "check_id", json_string(m->check_id));
-      json_object_set_new(json, "url", json_string(m->url));
-      json_object_set_new(json, "t", json_integer(m->t));
-      json_object_set_new(json, "exit_status", json_integer(m->exit_status));
-
       js = json_dumps(json, 0);
-
       fprintf(stdout, "%s\n", js);
     }
     free_measurement(&m);
