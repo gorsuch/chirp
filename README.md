@@ -15,8 +15,7 @@ $ make
 
 ```sh
 $ ./curly
-{"check_id": "1", "url": "http://github.com", "connect_time": 0.027369000000000001, "exit_status": 0, "starttransfer_time": 0.027369000000000001, "t": 1395606698, "http_status": 301, "total_time": 0.034025, "namelookup_time": 0.020922}
-{"check_id": "1", "url": "http://github.com", "connect_time": 0.028160999999999999, "exit_status": 0, "starttransfer_time": 0.028160999999999999, "t": 1395606699, "http_status": 301, "total_time": 0.034594, "namelookup_time": 0.021714000000000001}
-{"check_id": "1", "url": "http://github.com", "connect_time": 0.026891999999999999, "exit_status": 0, "starttransfer_time": 0.026891999999999999, "t": 1395606700, "http_status": 301, "total_time": 0.033193, "namelookup_time": 0.020537}
-^C
+{"local_port": 48293, "check_id": "1", "url": "http://github.com", "connect_time": 0.027161999999999999, "exit_status": 0, "starttransfer_time": 0.027161999999999999, "t": 1395628942, "http_status": 301, "local_ip": "107.170.123.131", "primary_ip": "192.30.252.131", "total_time": 0.033564999999999956, "namelookup_time": 0.020768999999999999}
+{"local_port": 48294, "check_id": "1", "url": "http://github.com", "connect_time": 0.028008999999999999, "exit_status": 0, "starttransfer_time": 0.028008999999999999, "t": 1395628943, "http_status": 301, "local_ip": "107.170.123.131", "primary_ip": "192.30.252.131", "total_time": 0.034387000000000001, "namelookup_time": 0.021642999999999999}
+{"local_port": 48295, "check_id": "1", "url": "http://github.com", "connect_time": 0.028565, "exit_status": 0, "starttransfer_time": 0.028565, "t": 1395628944, "http_status": 301, "local_ip": "107.170.123.131", "primary_ip": "192.30.252.131", "total_time": 0.034819999999999997, "namelookup_time": 0.022290999999999998}
 ```
