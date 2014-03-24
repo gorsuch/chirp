@@ -3,6 +3,7 @@
 #include <string.h>
 #include <jansson.h>
 #include <hiredis/hiredis.h>
+#include "config.h"
 #include "measure.h"
 
 json_t * measurement_to_json(struct measurement *m) {
@@ -51,7 +52,7 @@ void redis_report(redisContext *c, struct measurement *m) {
   json_decref(json);
 }
 
-int cycle(redisContext *c) {
+int cycle(struct config *config) {
   struct measurement * m;
 
   m = measure("1", "http://github.com");
@@ -59,7 +60,7 @@ int cycle(redisContext *c) {
     fprintf(stderr, "There was an error executing the measurement.\n");
   } else {
     stdout_report(m);
-    redis_report(c, m);
+    redis_report(config->dest_redis, m);
     free_measurement(&m);
   }
 
@@ -67,9 +68,14 @@ int cycle(redisContext *c) {
 }
 
 int main(int argc, char * argv[]) {
+  struct config config;
   redisContext *c;
 
-  c = redisConnect("localhost", 6379);
+  config.dest_redis_host = "localhost";
+  config.dest_redis_port = 6379;
+  config.dest_redis_list = "measurements";
+
+  c = redisConnect(config.dest_redis_host, config.dest_redis_port);
   if (c == NULL | c->err) {
     if (c) {
       printf("Redis Connection error: %s\n", c->errstr);
@@ -80,8 +86,10 @@ int main(int argc, char * argv[]) {
     exit(1);
   }
 
+  config.dest_redis = c;
+
   while (1) {
-    cycle(c);
+    cycle(&config);
     sleep(1);
   }
 
