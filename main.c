@@ -12,7 +12,6 @@ void report(struct measurement *m) {
   json_object_set_new(json, "url", json_string(m->url));
   json_object_set_new(json, "t", json_integer(m->t));
   json_object_set_new(json, "exit_status", json_integer(m->exit_status));
-
   json_object_set_new(json, "http_status", json_integer(m->http_status));
   json_object_set_new(json, "total_time", json_real(m->total_time));
   json_object_set_new(json, "namelookup_time", json_real(m->namelookup_time));
