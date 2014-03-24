@@ -47,17 +47,16 @@ struct measurement * measure(char *check_id, char *url)
     exit_code = curl_easy_perform(curl);
     m->exit_status = exit_code;
 
-    if (exit_code == 0) {
-      curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &m->http_status);
-      curl_easy_getinfo(curl, CURLINFO_NAMELOOKUP_TIME, &m->namelookup_time);
-      curl_easy_getinfo(curl, CURLINFO_CONNECT_TIME, &m->connect_time);
-      curl_easy_getinfo(curl, CURLINFO_TOTAL_TIME, &m->total_time);
-      curl_easy_getinfo(curl, CURLINFO_STARTTRANSFER_TIME, &m->starttransfer_time);
 
-      curl_easy_getinfo(curl, CURLINFO_PRIMARY_IP, &tmp_primary_ip);
-      m->primary_ip = (char *) malloc(strlen(tmp_primary_ip));
-      strcpy(m->primary_ip, tmp_primary_ip);
-    }
+    curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &m->http_status);
+    curl_easy_getinfo(curl, CURLINFO_NAMELOOKUP_TIME, &m->namelookup_time);
+    curl_easy_getinfo(curl, CURLINFO_CONNECT_TIME, &m->connect_time);
+    curl_easy_getinfo(curl, CURLINFO_TOTAL_TIME, &m->total_time);
+    curl_easy_getinfo(curl, CURLINFO_STARTTRANSFER_TIME, &m->starttransfer_time);
+
+    curl_easy_getinfo(curl, CURLINFO_PRIMARY_IP, &tmp_primary_ip);
+    m->primary_ip = (char *) malloc(strlen(tmp_primary_ip));
+    strcpy(m->primary_ip, tmp_primary_ip);
 
     curl_easy_cleanup(curl);
     return m;

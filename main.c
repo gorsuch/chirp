@@ -13,20 +13,16 @@ void report(struct measurement *m) {
   json_object_set_new(json, "t", json_integer(m->t));
   json_object_set_new(json, "exit_status", json_integer(m->exit_status));
 
-  if (m->exit_status == 0) {
-    json_object_set_new(json, "http_status", json_integer(m->http_status));
-    json_object_set_new(json, "total_time", json_real(m->total_time));
-    json_object_set_new(json, "namelookup_time", json_real(m->namelookup_time));
-    json_object_set_new(json, "connect_time", json_real(m->connect_time));
-    json_object_set_new(json, "starttransfer_time", json_real(m->connect_time));
-    json_object_set_new(json, "primary_ip", json_string(m->primary_ip));
+  json_object_set_new(json, "http_status", json_integer(m->http_status));
+  json_object_set_new(json, "total_time", json_real(m->total_time));
+  json_object_set_new(json, "namelookup_time", json_real(m->namelookup_time));
+  json_object_set_new(json, "connect_time", json_real(m->connect_time));
+  json_object_set_new(json, "starttransfer_time", json_real(m->connect_time));
+  json_object_set_new(json, "primary_ip", json_string(m->primary_ip));
 
-    js = json_dumps(json, 0);
-    fprintf(stdout, "%s\n", js);
-  } else {
-    js = json_dumps(json, 0);
-    fprintf(stdout, "%s\n", js);
-  }
+  js = json_dumps(json, 0);
+  fprintf(stdout, "%s\n", js);
+
   free(js);
   json_decref(json);
 }
