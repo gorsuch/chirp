@@ -37,9 +37,18 @@ void stdout_report(struct measurement *m) {
 }
 
 void redis_report(redisContext *c, struct measurement *m) {
+  json_t *json;
+  char * js;
+
+  json = measurement_to_json(m); 
+  js = json_dumps(json, 0);
+
   redisReply *reply;
-  reply = redisCommand(c,"PING");
+  reply = redisCommand(c,"rpush measurements %s", js);
   freeReplyObject(reply);
+
+  free(js);
+  json_decref(json);
 }
 
 int cycle(redisContext *c) {
