@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <jansson.h>
+#include <hiredis/hiredis.h>
 #include "measure.h"
 
 void stdout_report(struct measurement *m) {
@@ -28,7 +29,13 @@ void stdout_report(struct measurement *m) {
   json_decref(json);
 }
 
-int cycle(void) {
+void redis_report(redisContext *c, struct measurement *m) {
+  redisReply *reply;
+  reply = redisCommand(c,"PING");
+  freeReplyObject(reply);
+}
+
+int cycle(redisContext *c) {
   struct measurement * m;
 
   m = measure("1", "http://github.com");
@@ -36,6 +43,7 @@ int cycle(void) {
     fprintf(stderr, "There was an error executing the measurement.\n");
   } else {
     stdout_report(m);
+    redis_report(c, m);
     free_measurement(&m);
   }
 
@@ -43,8 +51,23 @@ int cycle(void) {
 }
 
 int main(int argc, char * argv[]) {
+  redisContext *c;
+
+  c = redisConnect("localhost", 6379);
+  if (c == NULL | c->err) {
+    if (c) {
+      printf("Redis Connection error: %s\n", c->errstr);
+      redisFree(c);
+    } else {
+      printf("Redis Connection error: can't allocate redis context\n");
+    }
+    exit(1);
+  }
+
   while (1) {
-    cycle();
+    cycle(c);
     sleep(1);
   }
+
+  redisFree(c);
 }
