@@ -16,6 +16,7 @@ struct measurement * measure(char *check_id, char *url)
   CURLcode exit_code;
   struct measurement * m;
   char * tmp_primary_ip;
+  char * tmp_local_ip;
 
   curl = curl_easy_init();
 
@@ -58,6 +59,10 @@ struct measurement * measure(char *check_id, char *url)
     m->primary_ip = (char *) malloc(strlen(tmp_primary_ip));
     strcpy(m->primary_ip, tmp_primary_ip);
 
+    curl_easy_getinfo(curl, CURLINFO_LOCAL_IP, &tmp_local_ip);
+    m->local_ip = (char *) malloc(strlen(tmp_local_ip));
+    strcpy(m->local_ip, tmp_local_ip);
+
     curl_easy_cleanup(curl);
     return m;
   }
@@ -68,6 +73,7 @@ void free_measurement(struct measurement ** m) {
   free((*m)->check_id);
   free((*m)->url);
   free((*m)->primary_ip);
+  free((*m)->local_ip);
 
   free(*m);
 }
