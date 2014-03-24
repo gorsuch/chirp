@@ -5,9 +5,8 @@
 #include <hiredis/hiredis.h>
 #include "measure.h"
 
-void stdout_report(struct measurement *m) {
+json_t * measurement_to_json(struct measurement *m) {
   json_t *json = json_object();
-  char * js;
 
   json_object_set_new(json, "check_id", json_string(m->check_id));
   json_object_set_new(json, "url", json_string(m->url));
@@ -22,6 +21,14 @@ void stdout_report(struct measurement *m) {
   json_object_set_new(json, "local_ip", json_string(m->local_ip));
   json_object_set_new(json, "local_port", json_integer(m->local_port));
 
+  return json;
+}
+
+void stdout_report(struct measurement *m) {
+  json_t *json;
+  char * js;
+  
+  json = measurement_to_json(m); 
   js = json_dumps(json, 0);
   fprintf(stdout, "%s\n", js);
 
