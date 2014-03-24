@@ -19,6 +19,7 @@ void report(struct measurement *m) {
   json_object_set_new(json, "starttransfer_time", json_real(m->connect_time));
   json_object_set_new(json, "primary_ip", json_string(m->primary_ip));
   json_object_set_new(json, "local_ip", json_string(m->local_ip));
+  json_object_set_new(json, "local_port", json_integer(m->local_port));
 
   js = json_dumps(json, 0);
   fprintf(stdout, "%s\n", js);
