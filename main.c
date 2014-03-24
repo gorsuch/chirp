@@ -43,13 +43,17 @@ void redis_report(redisContext *c, struct measurement *m) {
 
   json = measurement_to_json(m); 
   js = json_dumps(json, 0);
+  json_decref(json);
 
   redisReply *reply;
   reply = redisCommand(c,"rpush measurements %s", js);
-  freeReplyObject(reply);
+  if (reply == NULL) {
+    fprintf(stderr, "DEBUG - something went wrong with redis: %s\n", c->errstr);
+  } else {
+    freeReplyObject(reply);
+  }
 
   free(js);
-  json_decref(json);
 }
 
 int cycle(struct config *config) {
