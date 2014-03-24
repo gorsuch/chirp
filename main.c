@@ -4,7 +4,7 @@
 #include <jansson.h>
 #include "measure.h"
 
-void report(struct measurement *m) {
+void stdout_report(struct measurement *m) {
   json_t *json = json_object();
   char * js;
 
@@ -28,23 +28,23 @@ void report(struct measurement *m) {
   json_decref(json);
 }
 
-int inner_loop(void) {
+int cycle(void) {
   struct measurement * m;
 
-  while (1) {
-    m = measure("1", "http://github.com");
-    if (m == NULL) {
-      fprintf(stderr, "There was an error executing the measurement.\n");
-    } else {
-      report(m);
-      free_measurement(&m);
-    }
-    sleep(1);
+  m = measure("1", "http://github.com");
+  if (m == NULL) {
+    fprintf(stderr, "There was an error executing the measurement.\n");
+  } else {
+    stdout_report(m);
+    free_measurement(&m);
   }
 
-  return 1;
+  return 0;
 }
 
 int main(int argc, char * argv[]) {
-  return inner_loop();
+  while (1) {
+    cycle();
+    sleep(1);
+  }
 }
