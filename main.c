@@ -59,11 +59,11 @@ void record_measurement(struct config *config, struct measurement *m) {
   free(js);
 
   if (reply == NULL) {
-    fprintf(stderr, "fn=record_measurement success=false error=\"%s\"\n", config->dest_redis->errstr);
+    fprintf(stderr, "fn=record_measurement check_id=%s success=false error=\"%s\"\n", m->check_id, config->dest_redis->errstr);
     connect_to_redis(config);
     record_measurement(config, m);
   } else {
-    fprintf(stdout, "fn=record_measurement success=true\n");
+    fprintf(stdout, "fn=record_measurement check_id=%s success=true\n", m->check_id);
     freeReplyObject(reply);
   }
 }
