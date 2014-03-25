@@ -46,7 +46,7 @@ int connect_to_redis(struct config *config) {
   return 0;
 }
 
-void record_measurement(struct config *config, struct measurement *m) {
+void record(struct config *config, struct measurement *m) {
   json_t *json;
   char * js;
 
@@ -59,11 +59,11 @@ void record_measurement(struct config *config, struct measurement *m) {
   free(js);
 
   if (reply == NULL) {
-    fprintf(stderr, "fn=record_measurement check_id=%s success=false error=\"%s\"\n", m->check_id, config->dest_redis->errstr);
+    fprintf(stderr, "fn=record check_id=%s success=false error=\"%s\"\n", m->check_id, config->dest_redis->errstr);
     connect_to_redis(config);
-    record_measurement(config, m);
+    record(config, m);
   } else {
-    fprintf(stdout, "fn=record_measurement check_id=%s success=true\n", m->check_id);
+    fprintf(stdout, "fn=record check_id=%s success=true\n", m->check_id);
     freeReplyObject(reply);
   }
 }
@@ -75,7 +75,7 @@ int cycle(struct config *config) {
   if (m == NULL) {
     fprintf(stderr, "There was an error executing the measurement.\n");
   } else {
-    record_measurement(config, m);
+    record(config, m);
     free_measurement(&m);
   }
 
