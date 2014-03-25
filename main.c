@@ -25,19 +25,7 @@ json_t * measurement_to_json(struct measurement *m) {
   return json;
 }
 
-void stdout_report(struct measurement *m) {
-  json_t *json;
-  char * js;
-  
-  json = measurement_to_json(m); 
-  js = json_dumps(json, 0);
-  fprintf(stdout, "%s\n", js);
-
-  free(js);
-  json_decref(json);
-}
-
-void redis_report(redisContext *c, struct measurement *m) {
+void redis_report(struct config *config, struct measurement *m) {
   json_t *json;
   char * js;
 
@@ -46,14 +34,15 @@ void redis_report(redisContext *c, struct measurement *m) {
   json_decref(json);
 
   redisReply *reply;
-  reply = redisCommand(c,"rpush measurements %s", js);
+  reply = redisCommand(config->dest_redis,"rpush measurements %s", js);
+  free(js);
+
   if (reply == NULL) {
-    fprintf(stderr, "DEBUG - something went wrong with redis: %s\n", c->errstr);
+    fprintf(stderr, "fn=redis_report error=true message=\"%s\"\n", config->dest_redis->errstr);
   } else {
+    fprintf(stdout, "fn=redis_report error=false\n");
     freeReplyObject(reply);
   }
-
-  free(js);
 }
 
 int cycle(struct config *config) {
@@ -63,8 +52,7 @@ int cycle(struct config *config) {
   if (m == NULL) {
     fprintf(stderr, "There was an error executing the measurement.\n");
   } else {
-    stdout_report(m);
-    redis_report(config->dest_redis, m);
+    redis_report(config, m);
     free_measurement(&m);
   }
 
