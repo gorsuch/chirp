@@ -66,7 +66,7 @@ struct measurement * measure(char *check_id, char *url)
     curl_easy_cleanup(curl);
     return m;
   }
-  return 0;
+  return NULL;
 }
 
 void free_measurement(struct measurement ** m) {
