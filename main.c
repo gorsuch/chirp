@@ -36,9 +36,9 @@ int connect_to_redis(struct config *config) {
   
   if (c == NULL | c->err) {
     if (c) {
-      fprintf(stderr, "fn=main error=true message=\"%s\"\n", c->errstr);
+      fprintf(stderr, "fn=connect_to_redis success=false error=\"%s\"\n", c->errstr);
     } else {
-      fprintf(stderr, "fn=main error=true message=\"can't allocate redis context\"\n");
+      fprintf(stderr, "fn=connect_to_redis success=false error=\"can't allocate redis context\"\n");
     }
     sleep(1);
     connect_to_redis(config);
@@ -46,7 +46,7 @@ int connect_to_redis(struct config *config) {
   return 0;
 }
 
-void redis_report(struct config *config, struct measurement *m) {
+void record_measurement(struct config *config, struct measurement *m) {
   json_t *json;
   char * js;
 
@@ -59,11 +59,11 @@ void redis_report(struct config *config, struct measurement *m) {
   free(js);
 
   if (reply == NULL) {
-    fprintf(stderr, "fn=redis_report success=false error=\"%s\"\n", config->dest_redis->errstr);
+    fprintf(stderr, "fn=record_measurement success=false error=\"%s\"\n", config->dest_redis->errstr);
     connect_to_redis(config);
-    redis_report(config, m);
+    record_measurement(config, m);
   } else {
-    fprintf(stdout, "fn=redis_report success=true\n");
+    fprintf(stdout, "fn=record_measurement success=true\n");
     freeReplyObject(reply);
   }
 }
@@ -75,7 +75,7 @@ int cycle(struct config *config) {
   if (m == NULL) {
     fprintf(stderr, "There was an error executing the measurement.\n");
   } else {
-    redis_report(config, m);
+    record_measurement(config, m);
     free_measurement(&m);
   }
 
