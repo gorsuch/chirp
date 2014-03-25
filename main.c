@@ -37,7 +37,6 @@ int connect_to_redis(struct config *config) {
   if (c == NULL | c->err) {
     if (c) {
       fprintf(stderr, "fn=main error=true message=\"%s\"\n", c->errstr);
-      redisFree(c);
     } else {
       fprintf(stderr, "fn=main error=true message=\"can't allocate redis context\"\n");
     }
@@ -60,9 +59,11 @@ void redis_report(struct config *config, struct measurement *m) {
   free(js);
 
   if (reply == NULL) {
-    fprintf(stderr, "fn=redis_report error=true message=\"%s\"\n", config->dest_redis->errstr);
+    fprintf(stderr, "fn=redis_report success=false error=\"%s\"\n", config->dest_redis->errstr);
+    connect_to_redis(config);
+    redis_report(config, m);
   } else {
-    fprintf(stdout, "fn=redis_report error=false\n");
+    fprintf(stdout, "fn=redis_report success=true\n");
     freeReplyObject(reply);
   }
 }
