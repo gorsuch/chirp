@@ -70,10 +70,10 @@ int main(int argc, char * argv[]) {
   c = redisConnect(config.dest_redis_host, config.dest_redis_port);
   if (c == NULL | c->err) {
     if (c) {
-      printf("Redis Connection error: %s\n", c->errstr);
+      fprintf(stderr, "fn=main error=true message=\"%s\"\n", c->errstr);
       redisFree(c);
     } else {
-      printf("Redis Connection error: can't allocate redis context\n");
+      fprintf(stderr, "fn=main error=true message=\"can't allocate redis context\"\n");
     }
     exit(1);
   }
