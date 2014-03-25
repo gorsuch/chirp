@@ -25,6 +25,28 @@ json_t * measurement_to_json(struct measurement *m) {
   return json;
 }
 
+int connect_to_redis(struct config *config) {
+  if (config->dest_redis != NULL) {
+    redisFree(config->dest_redis);
+    config->dest_redis = NULL;
+  }
+
+  redisContext *c = redisConnect(config->dest_redis_host, config->dest_redis_port);
+  config->dest_redis = c;
+  
+  if (c == NULL | c->err) {
+    if (c) {
+      fprintf(stderr, "fn=main error=true message=\"%s\"\n", c->errstr);
+      redisFree(c);
+    } else {
+      fprintf(stderr, "fn=main error=true message=\"can't allocate redis context\"\n");
+    }
+    sleep(1);
+    connect_to_redis(config);
+  }
+  return 0;
+}
+
 void redis_report(struct config *config, struct measurement *m) {
   json_t *json;
   char * js;
@@ -67,18 +89,7 @@ int main(int argc, char * argv[]) {
   config.dest_redis_port = 6379;
   config.dest_redis_list = "measurements";
 
-  c = redisConnect(config.dest_redis_host, config.dest_redis_port);
-  if (c == NULL | c->err) {
-    if (c) {
-      fprintf(stderr, "fn=main error=true message=\"%s\"\n", c->errstr);
-      redisFree(c);
-    } else {
-      fprintf(stderr, "fn=main error=true message=\"can't allocate redis context\"\n");
-    }
-    exit(1);
-  }
-
-  config.dest_redis = c;
+  connect_to_redis(&config);
 
   while (1) {
     cycle(&config);
