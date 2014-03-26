@@ -1,9 +1,9 @@
 curly
 =====
 
-A simple http measurement tool based on libcurl.  It aims to return `msgpack` compatable responses, allowing for easier parsing downstream.
+A simple http measurement tool based on libcurl.  It takes JSON as input and gives JSON back as output.
 
-Note that it doesn't actually do much of this right now.
+See `example_input.txt` for an example of the input format.
 
 ## Building
 
