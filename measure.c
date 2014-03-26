@@ -64,8 +64,6 @@ struct measurement * measure(char *check_id, char *url)
     strcpy(m->local_ip, tmp_local_ip);
 
     curl_easy_cleanup(curl);
-    fprintf(stdout, "fn=measure check_id=%s success=true\n", m->check_id);
-
     return m;
   }
   return NULL;
