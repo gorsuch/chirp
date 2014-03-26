@@ -8,7 +8,6 @@ struct check * stocheck(char * s) {
   json_t *root;
   json_error_t error;
   struct check * c;
-  json_t *id, *url;
 
   root = json_loads(s, 0, &error);
 
@@ -29,5 +28,6 @@ struct check * stocheck(char * s) {
 void free_check(struct check ** c) {
   free((*c)->id);
   free((*c)->url);
+  free(*c);
   c = NULL;
 }
