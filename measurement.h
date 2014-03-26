@@ -16,6 +16,7 @@ struct measurement {
   long local_port;
 };
 
-struct measurement * measure(char *check_id, char *url);
+struct measurement * take_measurement(char *check_id, char *url);
 void free_measurement(struct measurement ** m);
+void emit_measurement(struct measurement *m);
 #endif
