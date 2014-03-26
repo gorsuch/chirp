@@ -31,5 +31,7 @@ int main(void) {
       cycle(c);
       free_check(&c);
     }
+    free(line);
+    line = NULL;
   }
 }
