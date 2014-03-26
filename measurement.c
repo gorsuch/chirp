@@ -64,11 +64,9 @@ struct measurement * take_measurement(char *check_id, char *url)
     m->total_time = 0.0;
     m->starttransfer_time = 0.0;
 
-    m->url = (char *) malloc(strlen(url) + 1);
-    strcpy(m->url, url);
+    m->url = strdup(url);
 
-    m->check_id = (char *) malloc(strlen(check_id) + 1);
-    strcpy(m->check_id, check_id);
+    m->check_id = strdup(check_id);
 
     m->t = (unsigned)time(NULL);
 
@@ -88,12 +86,10 @@ struct measurement * take_measurement(char *check_id, char *url)
     curl_easy_getinfo(curl, CURLINFO_LOCAL_PORT, &m->local_port);
 
     curl_easy_getinfo(curl, CURLINFO_PRIMARY_IP, &tmp_primary_ip);
-    m->primary_ip = (char *) malloc(strlen(tmp_primary_ip));
-    strcpy(m->primary_ip, tmp_primary_ip);
+    m->primary_ip = strdup(tmp_primary_ip);
 
     curl_easy_getinfo(curl, CURLINFO_LOCAL_IP, &tmp_local_ip);
-    m->local_ip = (char *) malloc(strlen(tmp_local_ip));
-    strcpy(m->local_ip, tmp_local_ip);
+    m->local_ip = strdup(tmp_local_ip);
 
     curl_easy_cleanup(curl);
     return m;

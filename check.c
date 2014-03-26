@@ -24,17 +24,16 @@ struct check * stocheck(char * s) {
     return NULL; 
   }
 
-  url =json_object_get(root, "url");
+  url = json_object_get(root, "url");
   if(!json_is_string(url)) {
     json_decref(root);
     return NULL; 
   }
 
-  c->id = (char *) malloc(strlen(json_string_value(id)));
-  strcpy(c->id, json_string_value(id));
-
-  c->url = (char *) malloc(strlen(json_string_value(url)));
-  strcpy(c->url, json_string_value(url));
+  c->id = strdup(json_string_value(id));
+  c->url = strdup(json_string_value(url));
+  json_decref(id);
+  json_decref(url);
 
   json_decref(root);
 
