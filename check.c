@@ -18,22 +18,8 @@ struct check * stocheck(char * s) {
 
   c = (struct check *) malloc(sizeof(struct check *));
 
-  id = json_object_get(root, "id");
-  if(!json_is_string(id)) {
-    json_decref(root);
-    return NULL; 
-  }
-
-  url = json_object_get(root, "url");
-  if(!json_is_string(url)) {
-    json_decref(root);
-    return NULL; 
-  }
-
-  c->id = strdup(json_string_value(id));
-  c->url = strdup(json_string_value(url));
-  json_decref(id);
-  json_decref(url);
+  c->id = strdup(json_string_value(json_object_get(root, "id")));
+  c->url = strdup(json_string_value(json_object_get(root, "url")));
 
   json_decref(root);
 
