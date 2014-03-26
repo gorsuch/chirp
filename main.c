@@ -1,12 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "check.h"
 #include "measurement.h"
 
-int cycle(char * input) {
+int cycle(struct check * c) {
   struct measurement * m;
 
-  m = take_measurement("1", "http://github.com");
+  m = take_measurement(c->id, c->url);
   if (m == NULL) {
     fprintf(stderr, "There was an error executing the measurement.\n");
   } else {
@@ -20,8 +21,15 @@ int cycle(char * input) {
 int main(void) {
   char * line = NULL;
   size_t size;
+  struct check * c;
 
   while(getline(&line, &size, stdin) != -1) { 
-    cycle(line);
+    c = stocheck(line);
+    if (c == NULL) {
+      fprintf(stderr, "error=true message=\"failure processing input\"\n");
+    } else {
+      cycle(c);
+      free_check(&c);
+    }
   }
 }

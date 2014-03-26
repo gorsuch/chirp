@@ -1,3 +1,3 @@
-{"check_id":"1", "url":"http://github.com"}
-{"check_id":"2", "url":"http://heroku.com"}
-{"check_id":"3", "url":"https://github.com"}
+{"id":"1","url":"http://github.com"}
+{"id":"2","url":"http://heroku.com"}
+{"id":"3","url":"https://github.com"}
