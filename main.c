@@ -3,7 +3,7 @@
 #include <string.h>
 #include "measurement.h"
 
-int cycle(void) {
+int cycle(char * input) {
   struct measurement * m;
 
   m = take_measurement("1", "http://github.com");
@@ -17,9 +17,11 @@ int cycle(void) {
   return 0;
 }
 
-int main(int argc, char * argv[]) {
-  while (1) {
-    cycle();
-    sleep(1);
+int main(void) {
+  char * line = NULL;
+  size_t size;
+
+  while(getline(&line, &size, stdin) != -1) { 
+    cycle(line);
   }
 }
