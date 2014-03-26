@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <jansson.h>
-#include "measure.h"
+#include "measurement.h"
 
 json_t * measurement_to_json(struct measurement *m) {
   json_t *json = json_object();
