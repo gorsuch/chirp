@@ -23,8 +23,6 @@ int main(void) {
   size_t size;
   struct check * c;
 
-  setbuf(stdout, NULL);
-
   while(getline(&line, &size, stdin) != -1) { 
     c = stocheck(line);
     if (c == NULL) {
@@ -36,4 +34,6 @@ int main(void) {
     free(line);
     line = NULL;
   }
+
+  return 0;
 }
