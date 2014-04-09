@@ -3,7 +3,6 @@
 
 struct measurement {
   unsigned int t;
-  char * check_id;
   char * url;
   int exit_status;
   long http_status;
@@ -16,7 +15,7 @@ struct measurement {
   long local_port;
 };
 
-struct measurement * take_measurement(char *check_id, char *url);
+struct measurement * take_measurement(char *url);
 void free_measurement(struct measurement ** m);
 void emit_measurement(struct measurement *m);
 #endif

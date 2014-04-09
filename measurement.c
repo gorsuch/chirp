@@ -9,7 +9,6 @@
 json_t * jsonify_measurement(struct measurement *m) {
   json_t *json = json_object();
 
-  json_object_set_new(json, "check_id", json_string(m->check_id));
   json_object_set_new(json, "url", json_string(m->url));
   json_object_set_new(json, "t", json_integer(m->t));
   json_object_set_new(json, "exit_status", json_integer(m->exit_status));
@@ -42,7 +41,7 @@ static size_t write_data(void *ptr, size_t size, size_t nmemb, void *stream) {
   return size*nmemb;  
 }
 
-struct measurement * take_measurement(char *check_id, char *url)
+struct measurement * take_measurement(char *url)
 {
   CURL *curl;
   CURLcode exit_code;
@@ -55,7 +54,6 @@ struct measurement * take_measurement(char *check_id, char *url)
   if(curl) {
     m = (struct measurement *) malloc(sizeof(struct measurement));
     m->url = NULL;
-    m->check_id = NULL;
     m->t = 0;
     m->exit_status = 0;
     m->http_status = 0;
@@ -65,8 +63,6 @@ struct measurement * take_measurement(char *check_id, char *url)
     m->starttransfer_time = 0.0;
 
     m->url = strdup(url);
-
-    m->check_id = strdup(check_id);
 
     m->t = (unsigned)time(NULL);
 
@@ -98,7 +94,6 @@ struct measurement * take_measurement(char *check_id, char *url)
 }
 
 void free_measurement(struct measurement ** m) {
-  free((*m)->check_id);
   free((*m)->url);
   free((*m)->primary_ip);
   free((*m)->local_ip);
