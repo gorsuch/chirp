@@ -5,3 +5,6 @@ objs:
 	gcc -c measurement.c
 clean:
 	rm -f curly *.o
+install: build
+	cp ./curly /usr/local/bin
+
