@@ -1,3 +1,4 @@
+#include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -11,9 +12,12 @@ int main(int argc, char * argv[]) {
     exit(1);
   }
 
-  m = take_measurement(argv[1]);
-  emit_measurement(m);
-  free_measurement(&m);
+  while (1) {
+    m = take_measurement(argv[1]);
+    emit_measurement(m);
+    free_measurement(&m);
+    sleep(1);
+  }
 
   return 0;
 }
