@@ -3,37 +3,15 @@
 #include <string.h>
 #include <time.h>
 #include <curl/curl.h>
-#include <jansson.h>
 #include "measurement.h"
 
-json_t * jsonify_measurement(struct measurement *m) {
-  json_t *json = json_object();
-
-  json_object_set_new(json, "url", json_string(m->url));
-  json_object_set_new(json, "t", json_integer(m->t));
-  json_object_set_new(json, "exit_status", json_integer(m->exit_status));
-  json_object_set_new(json, "http_status", json_integer(m->http_status));
-  json_object_set_new(json, "total_time", json_real(m->total_time));
-  json_object_set_new(json, "namelookup_time", json_real(m->namelookup_time));
-  json_object_set_new(json, "connect_time", json_real(m->connect_time));
-  json_object_set_new(json, "starttransfer_time", json_real(m->connect_time));
-  json_object_set_new(json, "primary_ip", json_string(m->primary_ip));
-  json_object_set_new(json, "local_ip", json_string(m->local_ip));
-  json_object_set_new(json, "local_port", json_integer(m->local_port));
-
-  return json;
-}
-
 void emit_measurement(struct measurement *m) {
-  json_t *json;
-  char * js;
-
-  json = jsonify_measurement(m); 
-  js = json_dumps(json, 0);
-  json_decref(json);
-
-  fprintf(stdout, "%s\n", js);
-  free(js);
+  fprintf(stdout, "chirp.%s.namelookup_time:%f|ms\n", m->name, m->namelookup_time * 1000);
+  fprintf(stdout, "chirp.%s.connect_time:%f|ms\n", m->name, m->connect_time * 1000);
+  fprintf(stdout, "chirp.%s.starttransfer_time:%f|ms\n", m->name, m->starttransfer_time * 1000);
+  fprintf(stdout, "chirp.%s.total_time:%f|ms\n", m->name, m->total_time * 1000);
+  fprintf(stdout, "chirp.%s.http_status.%lu:1|c\n", m->name, m->http_status);
+  fprintf(stdout, "chirp.%s.exit_status.%d:1|c\n", m->name, m->exit_status);
 }
 
 /* dummy function that allows us to discard all libcurl output */
@@ -41,7 +19,7 @@ static size_t write_data(void *ptr, size_t size, size_t nmemb, void *stream) {
   return size*nmemb;  
 }
 
-struct measurement * take_measurement(char *url)
+struct measurement * take_measurement(char *name, char *url)
 {
   CURL *curl;
   CURLcode exit_code;
@@ -62,6 +40,7 @@ struct measurement * take_measurement(char *url)
     m->total_time = 0.0;
     m->starttransfer_time = 0.0;
 
+    m->name = strdup(name);
     m->url = strdup(url);
 
     m->t = (unsigned)time(NULL);
@@ -95,6 +74,7 @@ struct measurement * take_measurement(char *url)
 
 void free_measurement(struct measurement ** m) {
   free((*m)->url);
+  free((*m)->name);
   free((*m)->primary_ip);
   free((*m)->local_ip);
 

@@ -1,6 +1,6 @@
 build: chirp
 chirp: objs
-	gcc main.c -lcurl -ljansson measurement.o -o chirp
+	gcc main.c -lcurl measurement.o -o chirp
 objs:
 	gcc -c measurement.c
 clean:
