@@ -1,7 +1,7 @@
 chirp
 =====
 
-A simple http measurement tool based on libcurl.  It takes a single url as an argument and emits JSON on a single line containing allegedly useful metrics.
+A simple http measurement tool based on libcurl.  It takes a single url as an argument and emits measurement data via `logfmt` to `stdout`.
 
 ## Building
 
