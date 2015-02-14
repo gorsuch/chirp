@@ -4,7 +4,6 @@
 struct measurement {
   unsigned int t;
   char * url;
-  char * name;
   int exit_status;
   long http_status;
   double namelookup_time;
@@ -16,7 +15,7 @@ struct measurement {
   long local_port;
 };
 
-struct measurement * take_measurement(char *name, char *url);
+struct measurement * take_measurement(char *url);
 void free_measurement(struct measurement ** m);
-void emit_measurement(struct measurement *m);
+void emit_stdout(struct measurement *m);
 #endif

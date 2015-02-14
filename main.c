@@ -7,14 +7,14 @@
 int main(int argc, char * argv[]) {
   struct measurement * m = NULL;
 
-  if (argc < 3) {
-    fprintf(stderr, "usage: %s [name] [url]\n", argv[0]);
+  if (argc < 2) {
+    fprintf(stderr, "usage: %s [url]\n", argv[0]);
     exit(1);
   }
 
   while (1) {
-    m = take_measurement(argv[1], argv[2]);
-    emit_measurement(m);
+    m = take_measurement(argv[1]);
+    emit_stdout(m);
     free_measurement(&m);
     sleep(1);
   }

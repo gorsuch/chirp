@@ -12,9 +12,11 @@ $ make
 ## Running
 
 ```sh
-$ ./chirp http://github.com
-{"url": "http://github.com", "connect_time": 0.02845, "exit_status": 0, "starttransfer_time": 0.02845, "t": 1397069414, "local_ip": "107.170.123.131", "primary_ip": "192.30.252.129", "total_time": 0.034930999999999997, "http_status": 301, "namelookup_time": 0.021894, "local_port": 46590}
-
-$ ./chirp https://github.com
-{"url": "https://github.com", "connect_time": 0.02708, "exit_status": 0, "starttransfer_time": 0.02708, "t": 1397069524, "local_ip": "107.170.123.131", "primary_ip": "192.30.252.129", "total_time": 0.066956000000000002, "http_status": 200, "namelookup_time": 0.020678999999999999, "local_port": 52764}
+$ ./chirp http://www.canary.io
+app=chirp url=http://www.canary.io namelookup_time=0.528259 connect_time=0.570642 starttransfer_time=0.647230 total_time=0.664905 ip='23.235.40.133' http_status=200 curl_status=0
+app=chirp url=http://www.canary.io namelookup_time=0.005383 connect_time=0.048099 starttransfer_time=0.091759 total_time=0.092648 ip='23.235.40.133' http_status=200 curl_status=0
+app=chirp url=http://www.canary.io namelookup_time=0.005461 connect_time=0.048062 starttransfer_time=0.093217 total_time=0.096876 ip='23.235.40.133' http_status=200 curl_status=0
+app=chirp url=http://www.canary.io namelookup_time=0.005376 connect_time=0.048695 starttransfer_time=0.097583 total_time=0.101150 ip='23.235.40.133' http_status=200 curl_status=0
+app=chirp url=http://www.canary.io namelookup_time=0.005377 connect_time=0.048902 starttransfer_time=0.096214 total_time=0.100840 ip='23.235.40.133' http_status=200 curl_status=0
+^C
 ```

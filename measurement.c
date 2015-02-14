@@ -5,13 +5,25 @@
 #include <curl/curl.h>
 #include "measurement.h"
 
-void emit_measurement(struct measurement *m) {
-  fprintf(stdout, "chirp.%s.namelookup_time:%f|ms\n", m->name, m->namelookup_time * 1000);
-  fprintf(stdout, "chirp.%s.connect_time:%f|ms\n", m->name, m->connect_time * 1000);
-  fprintf(stdout, "chirp.%s.starttransfer_time:%f|ms\n", m->name, m->starttransfer_time * 1000);
-  fprintf(stdout, "chirp.%s.total_time:%f|ms\n", m->name, m->total_time * 1000);
-  fprintf(stdout, "chirp.%s.http_status.%lu:1|c\n", m->name, m->http_status);
-  fprintf(stdout, "chirp.%s.exit_status.%d:1|c\n", m->name, m->exit_status);
+void emit_stdout(struct measurement *m) {
+  fprintf(stdout,
+      "app=chirp "
+      "url=%s "
+      "namelookup_time=%f "
+      "connect_time=%f "
+      "starttransfer_time=%f "
+      "total_time=%f "
+      "ip='%s' "
+      "http_status=%lu "
+      "curl_status=%d\n",
+      m->url,
+      m->namelookup_time,
+      m->connect_time,
+      m->starttransfer_time,
+      m->total_time,
+      m->primary_ip,
+      m->http_status,
+      m->exit_status);
 }
 
 /* dummy function that allows us to discard all libcurl output */
@@ -19,7 +31,7 @@ static size_t write_data(void *ptr, size_t size, size_t nmemb, void *stream) {
   return size*nmemb;  
 }
 
-struct measurement * take_measurement(char *name, char *url)
+struct measurement * take_measurement(char *url)
 {
   CURL *curl;
   CURLcode exit_code;
@@ -40,7 +52,6 @@ struct measurement * take_measurement(char *name, char *url)
     m->total_time = 0.0;
     m->starttransfer_time = 0.0;
 
-    m->name = strdup(name);
     m->url = strdup(url);
 
     m->t = (unsigned)time(NULL);
@@ -74,7 +85,6 @@ struct measurement * take_measurement(char *name, char *url)
 
 void free_measurement(struct measurement ** m) {
   free((*m)->url);
-  free((*m)->name);
   free((*m)->primary_ip);
   free((*m)->local_ip);
 
