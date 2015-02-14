@@ -1,10 +1,10 @@
-build: curly
-curly: objs
-	gcc main.c -lcurl -ljansson measurement.o -o curly
+build: chirp
+chirp: objs
+	gcc main.c -lcurl -ljansson measurement.o -o chirp
 objs:
 	gcc -c measurement.c
 clean:
-	rm -f curly *.o
+	rm -f chirp *.o
 install: build
-	cp ./curly /usr/local/bin
+	cp ./chirp /usr/local/bin
 
