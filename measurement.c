@@ -17,10 +17,10 @@ void emit_stdout(struct measurement *m) {
       "http_status=%lu "
       "curl_status=%d\n",
       m->url,
-      m->namelookup_time,
-      m->connect_time,
-      m->starttransfer_time,
-      m->total_time,
+      m->namelookup_time * 1000,
+      m->connect_time * 1000,
+      m->starttransfer_time * 1000,
+      m->total_time * 1000,
       m->primary_ip,
       m->http_status,
       m->exit_status);
