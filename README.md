@@ -6,7 +6,7 @@ A simple http measurement tool based on libcurl.  It takes a single url as an ar
 ## Building
 
 ```sh
-$ make
+$ make install
 ```
 
 ## Running
