@@ -1,7 +1,14 @@
 chirp
 =====
 
-A simple http measurement tool based on libcurl.  It takes a single url as an argument and emits measurement data via `logfmt` to `stdout`.
+A simple http measurement tool based on libcurl.  It takes a single url as an argument and emits timestamped, columnar measurement data to `stdout`.
+
+## Goals
+
+* ping, but for http
+* be small
+* be unsurprising
+* be composable
 
 ## Building
 
