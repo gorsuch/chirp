@@ -10,6 +10,7 @@ struct measurement {
   double total_time;
   double connect_time;
   double starttransfer_time;
+  char * local_ip;
   char * primary_ip;
 };
 
