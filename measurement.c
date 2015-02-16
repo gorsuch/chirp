@@ -14,6 +14,8 @@ void emit_logfmt(struct measurement *m) {
       "%.3f "
       "%.3f "
       "%.3f "
+      "%lu "
+      "%.0f "
       "%d "
       "%lu\n",
       m->url,
@@ -23,6 +25,8 @@ void emit_logfmt(struct measurement *m) {
       m->connect_time * 1000,
       m->starttransfer_time * 1000,
       m->total_time * 1000,
+      m->header_size,
+      m->size_download,
       m->curl_status,
       m->http_status);
 }
@@ -66,6 +70,8 @@ struct measurement * take_measurement(char *url)
     m->curl_status = exit_code;
 
     curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &m->http_status);
+    curl_easy_getinfo(curl, CURLINFO_HEADER_SIZE, &m->header_size);
+    curl_easy_getinfo(curl, CURLINFO_SIZE_DOWNLOAD, &m->size_download);
     curl_easy_getinfo(curl, CURLINFO_NAMELOOKUP_TIME, &m->namelookup_time);
     curl_easy_getinfo(curl, CURLINFO_CONNECT_TIME, &m->connect_time);
     curl_easy_getinfo(curl, CURLINFO_TOTAL_TIME, &m->total_time);

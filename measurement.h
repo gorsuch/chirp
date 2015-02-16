@@ -6,6 +6,8 @@ struct measurement {
   char * url;
   int curl_status;
   long http_status;
+  long header_size;
+  double size_download;
   double namelookup_time;
   double total_time;
   double connect_time;
