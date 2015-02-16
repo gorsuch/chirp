@@ -4,7 +4,7 @@
 struct measurement {
   unsigned int t;
   char * url;
-  int exit_status;
+  int curl_status;
   long http_status;
   double namelookup_time;
   double total_time;
@@ -17,5 +17,5 @@ struct measurement {
 
 struct measurement * take_measurement(char *url);
 void free_measurement(struct measurement ** m);
-void emit_stdout(struct measurement *m);
+void emit_logfmt(struct measurement *m);
 #endif

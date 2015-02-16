@@ -12,9 +12,10 @@ int main(int argc, char * argv[]) {
     exit(1);
   }
 
+  setbuf(stdout, NULL);
   while (1) {
     m = take_measurement(argv[1]);
-    emit_stdout(m);
+    emit_logfmt(m);
     free_measurement(&m);
     sleep(1);
   }

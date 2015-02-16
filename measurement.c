@@ -5,25 +5,24 @@
 #include <curl/curl.h>
 #include "measurement.h"
 
-void emit_stdout(struct measurement *m) {
+void emit_logfmt(struct measurement *m) {
   fprintf(stdout,
-      "app=chirp "
       "url=%s "
-      "namelookup_time=%f "
-      "connect_time=%f "
-      "starttransfer_time=%f "
-      "total_time=%f "
-      "ip='%s' "
-      "http_status=%lu "
-      "curl_status=%d\n",
+      "ip=\"%s\" "
+      "dns=%.3fms "
+      "conn=%.3fms "
+      "first=%.3fms "
+      "total=%.3fms "
+      "curl=%d "
+      "http=%lu\n",
       m->url,
+      m->primary_ip,
       m->namelookup_time * 1000,
       m->connect_time * 1000,
       m->starttransfer_time * 1000,
       m->total_time * 1000,
-      m->primary_ip,
-      m->http_status,
-      m->exit_status);
+      m->curl_status,
+      m->http_status);
 }
 
 /* dummy function that allows us to discard all libcurl output */
@@ -45,7 +44,7 @@ struct measurement * take_measurement(char *url)
     m = (struct measurement *) malloc(sizeof(struct measurement));
     m->url = NULL;
     m->t = 0;
-    m->exit_status = 0;
+    m->curl_status = 0;
     m->http_status = 0;
     m->namelookup_time = 0.0;
     m->connect_time = 0.0;
@@ -62,7 +61,7 @@ struct measurement * take_measurement(char *url)
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, write_data);
 
     exit_code = curl_easy_perform(curl);
-    m->exit_status = exit_code;
+    m->curl_status = exit_code;
 
     curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &m->http_status);
     curl_easy_getinfo(curl, CURLINFO_NAMELOOKUP_TIME, &m->namelookup_time);
