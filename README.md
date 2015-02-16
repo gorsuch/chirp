@@ -3,20 +3,20 @@ chirp
 
 A simple http measurement tool based on libcurl.  It takes a single url as an argument and emits timestamped, columnar measurement data to `stdout`.
 
-## Goals
+## goals
 
 * ping, but for http
 * be small
 * be unsurprising
 * be composable
 
-## Building
+## building
 
 ```sh
 $ make install
 ```
 
-## Running
+## running
 
 ```sh
 $ chirp http://www.canary.io
@@ -27,7 +27,7 @@ $ chirp http://www.canary.io
 ^C
 ```
 
-## Details
+## output
 
 `chirp` emits the following fields for consumption:
 
