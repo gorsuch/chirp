@@ -24,11 +24,14 @@ http://www.canary.io 10.0.1.39 23.235.44.133 5.415 22.419 38.027 41.061 448 1388
 
 `chirp` emits the following fields that you may or may not find useful:
 
-* `url` - url being measured
-* `ip`- ip `chirp` connected to
-* `dns` - time taken (in milliseconds) to resolve the `url`
-* `conn` - time taken (in milliseconds) to connect to the `url`
-* `first` - time taken (in milliseconds) to receive the first byte
-* `total` - total time taken (in milliseconds)
+* url being measured
+* ip of the host running chirp
+* ip `chirp` connected to
+* time taken (in milliseconds) to resolve the `url`
+* time taken (in milliseconds) to connect to the `url`
+* time taken (in milliseconds) to receive the first byte
+* total time taken (in milliseconds)
+* header size
+* body size
 * `curl` - `libcurl` return status code
 * `http` - http status code
