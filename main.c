@@ -16,7 +16,7 @@ int main(int argc, char * argv[]) {
   setbuf(stdout, NULL);
   while (1) {
     m = take_measurement(argv[1]);
-    emit_logfmt(m);
+    emit(m);
     free_measurement(&m);
     sleep(1);
   }

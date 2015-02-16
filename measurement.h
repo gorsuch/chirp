@@ -18,5 +18,5 @@ struct measurement {
 
 struct measurement * take_measurement(char *url);
 void free_measurement(struct measurement ** m);
-void emit_logfmt(struct measurement *m);
+void emit(struct measurement *m);
 #endif

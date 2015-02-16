@@ -5,8 +5,9 @@
 #include <curl/curl.h>
 #include "measurement.h"
 
-void emit_logfmt(struct measurement *m) {
+void emit(struct measurement *m) {
   fprintf(stdout,
+      "%u "
       "%s "
       "%s "
       "%s "
@@ -18,6 +19,7 @@ void emit_logfmt(struct measurement *m) {
       "%.0f "
       "%d "
       "%lu\n",
+      (unsigned)time(NULL),
       m->url,
       m->local_ip,
       m->primary_ip,
