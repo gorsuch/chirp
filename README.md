@@ -28,8 +28,10 @@ url=http://github.com ip="192.30.252.128" dns=5.448ms conn=54.911ms first=103.10
 `chirp` emits the following fields that you may or may not find useful:
 
 * `url` - url being measured
-* `ip`  - ip `chirp` connected to
+* `ip`- ip `chirp` connected to
 * `dns` - time taken (in milliseconds) to resolve the `url`
 * `conn` - time taken (in milliseconds) to connect to the `url`
 * `first` - time taken (in milliseconds) to receive the first byte
 * `total` - total time taken (in milliseconds)
+* `curl` - `libcurl` return status code
+* `http` - http status code
