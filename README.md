@@ -29,7 +29,7 @@ $ chirp http://www.canary.io
 
 ## Details
 
-`chirp` emits the following fields that you may or may not find useful:
+`chirp` emits the following fields for consumption:
 
 * timestamp
 * url being measured
