@@ -41,5 +41,5 @@ $ chirp http://www.canary.io
 * total time taken (in milliseconds)
 * header size
 * body size
-* `curl` - `libcurl` return status code
-* `http` - http status code
+* `libcurl` return status code
+* http status code
