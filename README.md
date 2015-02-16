@@ -26,8 +26,8 @@ $ chirp http://www.canary.io
 
 * timestamp
 * url being measured
-* ip of the host running `chirp`
-* ip `chirp` connected to
+* ip of the host running `chirp`, returns `n/a` if unavailable
+* ip `chirp` connected to, return `n/a` if unavailable
 * time taken (in milliseconds) to resolve the `url`
 * time taken (in milliseconds) to connect to the `url`
 * time taken (in milliseconds) to receive the first byte
