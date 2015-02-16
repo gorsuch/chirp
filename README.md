@@ -13,12 +13,8 @@ $ make install
 
 ```sh
 $ chirp http://www.canary.io
-url=http://www.canary.io ip="23.235.44.133" dns=535.830ms conn=550.206ms first=612.423ms total=618.198ms curl=0 http=200
-url=http://www.canary.io ip="23.235.44.133" dns=5.410ms conn=26.736ms first=47.187ms total=49.999ms curl=0 http=200
-url=http://www.canary.io ip="23.235.44.133" dns=5.421ms conn=268.909ms first=297.329ms total=302.363ms curl=0 http=200
-url=http://www.canary.io ip="23.235.44.133" dns=5.434ms conn=25.101ms first=50.888ms total=58.478ms curl=0 http=200
-url=http://www.canary.io ip="23.235.44.133" dns=5.445ms conn=25.878ms first=44.991ms total=63.572ms curl=0 http=200
-url=http://www.canary.io ip="23.235.44.133" dns=5.476ms conn=23.278ms first=43.627ms total=46.038ms curl=0 http=200
+url=http://www.canary.io ip=23.235.40.133 dns=4.946ms conn=46.775ms first=90.391ms total=91.542ms curl=0 http=200
+url=http://www.canary.io ip=23.235.40.133 dns=5.460ms conn=48.167ms first=90.811ms total=92.922ms curl=0 http=200
 ^C
 ```
 

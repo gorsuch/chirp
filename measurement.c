@@ -8,7 +8,7 @@
 void emit_logfmt(struct measurement *m) {
   fprintf(stdout,
       "url=%s "
-      "ip=\"%s\" "
+      "ip=%s "
       "dns=%.3fms "
       "conn=%.3fms "
       "first=%.3fms "
@@ -36,7 +36,6 @@ struct measurement * take_measurement(char *url)
   CURLcode exit_code;
   struct measurement * m;
   char * tmp_primary_ip;
-  char * tmp_local_ip;
 
   curl = curl_easy_init();
 
@@ -68,13 +67,13 @@ struct measurement * take_measurement(char *url)
     curl_easy_getinfo(curl, CURLINFO_CONNECT_TIME, &m->connect_time);
     curl_easy_getinfo(curl, CURLINFO_TOTAL_TIME, &m->total_time);
     curl_easy_getinfo(curl, CURLINFO_STARTTRANSFER_TIME, &m->starttransfer_time);
-    curl_easy_getinfo(curl, CURLINFO_LOCAL_PORT, &m->local_port);
 
     curl_easy_getinfo(curl, CURLINFO_PRIMARY_IP, &tmp_primary_ip);
-    m->primary_ip = strdup(tmp_primary_ip);
-
-    curl_easy_getinfo(curl, CURLINFO_LOCAL_IP, &tmp_local_ip);
-    m->local_ip = strdup(tmp_local_ip);
+    if (strlen(tmp_primary_ip) == 0) {
+      m->primary_ip = strdup("n/a");
+    } else {
+      m->primary_ip = strdup(tmp_primary_ip);
+    }
 
     curl_easy_cleanup(curl);
     return m;
@@ -85,7 +84,6 @@ struct measurement * take_measurement(char *url)
 void free_measurement(struct measurement ** m) {
   free((*m)->url);
   free((*m)->primary_ip);
-  free((*m)->local_ip);
 
   free(*m);
 }
